@@ -74,13 +74,14 @@ for file_ in list_:
         os.rename(file_, re_name_path)
         # Перевіряю до якої папки відправляти файл
         for k, v in slovn.items():
-            for i in v:
-                if ext.upper() == i:
-                    if k != 'archives':
-                        move(k)
-                    else:
-                        zip_unpack()
-                else:
-                    continue
-        else:
-            continue
+            if ext.upper() in v:
+                for i in v:
+                    try:
+                        if k != 'archives':
+                            move(k)
+                        else:
+                            zip_unpack()
+                    except FileNotFoundError:
+                        continue
+            else:
+                continue
