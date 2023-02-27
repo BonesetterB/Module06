@@ -4,7 +4,11 @@ from zipfile import ZipFile
 
 path = 'D:/Мотлох/'
 list_ = os.listdir(path)
-
+slovn = {'video': ['AVI', 'MP4', 'MOV', 'MKV'],
+         'images': ['JPEG', 'PNG', 'JPG', 'SVG'],
+         'documents': ['DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX'],
+         'audio': ['MP3', 'OGG', 'WAV', 'AMR'],
+         'archives': ['ZIP', 'GZ', 'TAR'], }
 # Створюємо функцію для переміщення файлів, окрім архіва, бо для архівів є окрема функція
 
 
@@ -39,7 +43,7 @@ def zip_unpack():
 
 
 def normalize(name):
-    Ukr = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
+    Ukr = "абвгдежзийклмнопрстуфхцчшщъыьэюяєіїґ"
     Eng = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
            "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g")
     TRANS = {}
@@ -69,15 +73,14 @@ for file_ in list_:
         re_name_path = path+re_name
         os.rename(file_, re_name_path)
         # Перевіряю до якої папки відправляти файл
-        if ext == 'jpeg' or ext == 'png' or ext == 'jpg' or ext == 'svg' or ext == 'bmp':
-            move('images')
-        elif ext == 'doc' or ext == 'docx' or ext == 'txt' or ext == 'pdf' or ext == 'xlsx' or ext == 'pptx':
-            move('documents')
-        elif ext == 'mp3' or ext == 'ogg' or ext == 'wav' or ext == 'amr':
-            move('audio')
-        elif ext == 'mp4' or ext == 'avi' or ext == 'mov' or ext == 'mkv':
-            move('video')
-        elif ext == 'zip' or ext == 'gz' or ext == 'tar':
-            zip_unpack()
+        for k, v in slovn.items():
+            for i in v:
+                if ext.upper() == i:
+                    if k != 'archives':
+                        move(k)
+                    else:
+                        zip_unpack()
+                else:
+                    continue
         else:
             continue
