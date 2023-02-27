@@ -75,13 +75,12 @@ for file_ in list_:
         # Перевіряю до якої папки відправляти файл
         for k, v in slovn.items():
             if ext.upper() in v:
-                for i in v:
-                    try:
-                        if k != 'archives':
-                            move(k)
-                        else:
-                            zip_unpack()
-                    except FileNotFoundError:
-                        continue
+                try:
+                    if k != 'archives':
+                        move(k)
+                    else:
+                        zip_unpack()
+                except FileNotFoundError:
+                    continue
             else:
                 continue
